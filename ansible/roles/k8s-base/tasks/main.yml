@@ -50,6 +50,7 @@
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
+    validate_certs: no
   tags:
     - k8s
 
@@ -61,6 +62,12 @@
     update_cache: yes
   tags:
     - k8s
+    
+- name: Create directory specific configuration for docker daemon
+  file: path=/etc/systemd/system/docker.service.d state=directory 
+  
+- name: Create proxy file for docker daemon
+  template: src=/vagrant/ansible/roles/k8s-base/files/docker-http-proxy.conf dest=/etc/systemd/system/docker.service.d
 
 - name: Ensure Base Kubernetes
   become: yes

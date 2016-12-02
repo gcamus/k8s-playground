@@ -17,6 +17,10 @@
 
 set -e
 
+echo "Installing CA certs"
+sudo cp /vagrant/scripts/ca/* /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+
 echo "Installing Ansible..."
 apt-get update -y
 apt-get install -y software-properties-common
